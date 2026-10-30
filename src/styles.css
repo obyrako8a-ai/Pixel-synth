@@ -41,17 +41,41 @@
   --font-ui: 'Alumni Sans', 'Arial Narrow', sans-serif;
 }
 
-* { box-sizing: border-box; }
-html, body, #root { margin: 0; min-height: 100%; width: 100%; }
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+  width: 100%;
+}
+
 body {
   background: var(--black);
   color: var(--yellow);
   font-family: var(--font-ui);
   font-weight: 500;
 }
-button, select, input { font: inherit; }
-button { cursor: pointer; }
-button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px solid var(--mint); outline-offset: 3px; }
+
+button,
+select,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 1px solid var(--mint);
+  outline-offset: 3px;
+}
 
 .app {
   width: 100%;
@@ -60,7 +84,6 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   background: var(--black);
 }
 
-/* Header */
 .header {
   position: relative;
   display: flex;
@@ -69,6 +92,7 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   min-height: 3vw;
   margin-bottom: 5.85vw;
 }
+
 .brand-block {
   position: absolute;
   left: 50%;
@@ -77,6 +101,7 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   text-align: center;
   white-space: nowrap;
 }
+
 .header h1 {
   margin: 0;
   color: var(--yellow);
@@ -86,8 +111,13 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   line-height: 1;
   letter-spacing: .015em;
 }
-.audio-status { display: none; }
-.main-button, .reset-button {
+
+.audio-status {
+  display: none;
+}
+
+.main-button,
+.reset-button {
   width: 7.5vw;
   min-width: 72px;
   height: 2.73vw;
@@ -101,11 +131,22 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   line-height: 1;
   letter-spacing: .03em;
 }
-.reset-button { background: var(--black); color: var(--yellow); }
-.main-button { background: var(--yellow); color: var(--black); }
-.main-button:hover, .reset-button:hover { box-shadow: 0 0 0 1px var(--yellow); }
 
-/* Two-column instrument grid */
+.reset-button {
+  background: var(--black);
+  color: var(--yellow);
+}
+
+.main-button {
+  background: var(--yellow);
+  color: var(--black);
+}
+
+.main-button:hover,
+.reset-button:hover {
+  box-shadow: 0 0 0 1px var(--yellow);
+}
+
 .instrument-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -113,6 +154,7 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   row-gap: 7.8vw;
   width: 100%;
 }
+
 .instrument {
   min-width: 0;
   padding: 0;
@@ -120,8 +162,12 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   color: var(--yellow);
   transition: opacity .15s ease;
 }
+
 .instrument.is-off .cell.active .note-dot,
-.drums.is-off .drum-cell.active .note-dot { opacity: .5; }
+.drums.is-off .drum-cell.active .note-dot {
+  opacity: .5;
+}
+
 .instrument-topline {
   display: flex;
   align-items: center;
@@ -129,13 +175,17 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   gap: 1vw;
   min-height: 1.9vw;
 }
+
 .melody-picker {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: .65vw;
   min-width: 0;
   color: var(--yellow);
+  cursor: pointer;
 }
+
 .melody-picker select {
   appearance: none;
   -webkit-appearance: none;
@@ -152,8 +202,15 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   font-size: clamp(16px, 1.05vw, 20px);
   font-weight: 500;
   cursor: pointer;
+  position: relative;
+  z-index: 2;
 }
-.melody-picker select option { background: var(--black); color: var(--yellow); }
+
+.melody-picker select option {
+  background: var(--black);
+  color: var(--yellow);
+}
+
 .melody-triangle {
   display: inline-block;
   width: 0;
@@ -162,7 +219,9 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   border-left: .39vw solid transparent;
   border-right: .39vw solid transparent;
   border-top: .55vw solid var(--yellow);
+  pointer-events: none;
 }
+
 .power-button {
   display: inline-flex;
   align-items: center;
@@ -181,7 +240,12 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   font-size: clamp(14px, 1.05vw, 20px);
   font-weight: 500;
 }
-.power-button.active { background: var(--yellow); color: var(--black); }
+
+.power-button.active {
+  background: var(--yellow);
+  color: var(--black);
+}
+
 .instrument-name {
   margin: .16vw 0 0;
   color: var(--mint);
@@ -193,16 +257,22 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   letter-spacing: .025em;
 }
 
-/* Segmented speed and volume meters; invisible range input remains interactive */
 .instrument-controls {
   display: grid;
-  grid-template-columns: 13.36vw 13.36vw;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   justify-content: space-between;
-  column-gap: 0;
+  column-gap: clamp(24px, 3.1vw, 60px);
   margin-top: .1vw;
   margin-bottom: .78vw;
 }
-.slider-control { display: flex; min-width: 0; flex-direction: column; gap: .2vw; }
+
+.slider-control {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: .2vw;
+}
+
 .slider-control > span {
   color: var(--mint);
   font-family: var(--font-ui);
@@ -211,6 +281,7 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   line-height: 1;
   letter-spacing: .04em;
 }
+
 .meter {
   position: relative;
   width: 100%;
@@ -220,10 +291,29 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   background: transparent;
   padding: .08vw;
   overflow: hidden;
+  box-sizing: border-box;
 }
-.meter-bars { display: flex; align-items: center; gap: .26vw; width: 100%; height: 100%; pointer-events: none; }
-.meter-bars i { display: block; flex: 0 0 .21vw; height: 100%; background: transparent; }
-.meter-bars i.lit { background: var(--mint); }
+
+.meter-bars {
+  display: flex;
+  align-items: center;
+  gap: .26vw;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.meter-bars i {
+  display: block;
+  flex: 0 0 .21vw;
+  height: 100%;
+  background: transparent;
+}
+
+.meter-bars i.lit {
+  background: var(--mint);
+}
+
 .meter input[type='range'] {
   position: absolute;
   inset: -5px 0 -5px;
@@ -235,7 +325,6 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   cursor: ew-resize;
 }
 
-/* Melody cells and concentric note marks */
 .melody-grid {
   display: grid;
   grid-template-rows: repeat(4, minmax(1.5vw, 1fr));
@@ -243,7 +332,12 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   border-left: 1px solid var(--mint);
   border-top: 1px solid var(--mint);
 }
-.melody-row { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); }
+
+.melody-row {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+}
+
 .cell {
   position: relative;
   display: flex;
@@ -258,57 +352,157 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   background: transparent;
   color: var(--yellow);
 }
-.cell:hover { background: rgba(3, 253, 151, .08); }
-.cell.playing { box-shadow: inset 0 0 0 1px var(--yellow); }
-.note-dot { position: relative; display: block; width: 1.8vw; height: 1.8vw; min-width: 23px; min-height: 23px; pointer-events: none; }
-.note-dot::before, .note-dot::after, .note-dot i { content: ''; position: absolute; left: 50%; top: 50%; display: block; border-radius: 50%; transform: translate(-50%, -50%); }
-.note-dot::before { width: .86vw; height: .86vw; min-width: 11px; min-height: 11px; background: var(--yellow); border: 0; }
-.note-dot::after { width: 1.17vw; height: 1.17vw; min-width: 15px; min-height: 15px; border: 1px solid var(--yellow); }
-.note-dot i:nth-child(1) { width: 1.48vw; height: 1.48vw; border: .5px solid var(--yellow); }
-.note-dot i:nth-child(2) { width: 1.8vw; height: 1.8vw; border: .2px solid var(--yellow); }
-.note-dot i:nth-child(3) { display: none; }
 
-/* Drums span both columns */
+.cell:hover {
+  background: rgba(3, 253, 151, .08);
+}
+
+.cell.playing {
+  box-shadow: inset 0 0 0 1px var(--yellow);
+}
+
+.note-dot {
+  position: relative;
+  display: block;
+  width: 1.8vw;
+  height: 1.8vw;
+  min-width: 23px;
+  min-height: 23px;
+  pointer-events: none;
+}
+
+.note-dot::before,
+.note-dot::after,
+.note-dot i {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: block;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.note-dot::before {
+  width: .86vw;
+  height: .86vw;
+  min-width: 11px;
+  min-height: 11px;
+  background: var(--yellow);
+  border: 0;
+}
+
+.note-dot::after {
+  width: 1.17vw;
+  height: 1.17vw;
+  min-width: 15px;
+  min-height: 15px;
+  border: 1px solid var(--yellow);
+}
+
+.note-dot i:nth-child(1) {
+  width: 1.48vw;
+  height: 1.48vw;
+  border: .5px solid var(--yellow);
+}
+
+.note-dot i:nth-child(2) {
+  width: 1.8vw;
+  height: 1.8vw;
+  border: .2px solid var(--yellow);
+}
+
+.note-dot i:nth-child(3) {
+  display: none;
+}
+
 .drums {
   width: 100%;
-  margin-top: 7.8vw;
   padding: 0;
   border: 0;
   color: var(--yellow);
+  margin-top: 3.5vw;
 }
-.drum-header { display: flex; align-items: center; justify-content: space-between; gap: 2vw; margin-bottom: 1.1vw; }
-.drum-title { display: flex; align-items: center; gap: 1.5vw; min-width: 0; }
-.drum-title h2 {
-  margin: 0;
+
+.drum-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1vw;
+  min-height: 1.9vw;
+}
+
+.drum-instrument-name {
+  margin: clamp(3px, .16vw, 6px) 0 0;
   color: var(--mint);
+  text-align: center;
   font-family: var(--font-ui);
-  font-size: clamp(28px, 3.75vw, 48px);
+  font-size: clamp(30px, 3.75vw, 76px);
   line-height: 1;
   font-weight: 600;
   letter-spacing: .025em;
 }
-.drum-controls { display: grid; grid-template-columns: minmax(9vw, 1fr) minmax(9vw, 1fr); gap: 2vw; width: 24vw; }
-.drum-row { margin-bottom: .32vw; }
-.drum-row:last-child { margin-bottom: 0; }
-.drum-grid { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); width: 100%; border-left: 1px solid var(--mint); border-top: 1px solid var(--mint); }
+
+.drum-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  justify-content: space-between;
+  column-gap: clamp(24px, 3.1vw, 60px);
+  width: 100%;
+  margin-top: clamp(8px, .65vw, 14px);
+  margin-bottom: clamp(12px, .78vw, 18px);
+}
+
+.drum-melody-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  width: 100%;
+  border-left: 1px solid var(--mint);
+  border-top: 1px solid var(--mint);
+}
+
+.drum-row {
+  margin: 0;
+}
+
+.drum-grid {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  width: 100%;
+  border: 0;
+}
+
 .drum-cell {
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
   min-width: 0;
-  aspect-ratio: 8 / 1;
+  aspect-ratio: 1 / 1;
   padding: 0;
   border: 0;
   border-right: 1px solid var(--mint);
   border-bottom: 1px solid var(--mint);
   background: transparent;
 }
-.drum-cell:hover { background: rgba(3, 253, 151, .08); }
-.drum-cell.playing { box-shadow: inset 0 0 0 1px var(--yellow); }
-.drum-dot { transform: scale(.9); }
 
-/* Footer */
+.drum-cell:hover {
+  background: rgba(3, 253, 151, .08);
+}
+
+.drum-cell.playing {
+  box-shadow: inset 0 0 0 1px var(--yellow);
+}
+
+.drum-dot {
+  transform: none;
+}
+
+.drums.is-off .drum-cell.active .note-dot {
+  opacity: .5;
+}
+
 .footer {
   display: flex;
   align-items: center;
@@ -321,167 +515,373 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   font-weight: 500;
   line-height: 1;
 }
-.footer-line { flex: 1 1 auto; border-top: 1px dashed var(--mint); height: 0; }
 
-@media (max-width: 700px) {
-  .app { padding: 18px 16px 28px; }
-  .header { min-height: 70px; margin-bottom: 58px; }
-  .brand-block { top: 6px; }
-  .header h1 { font-size: clamp(20px, 5vw, 32px); }
-  .main-button, .reset-button { min-width: 58px; width: auto; padding: 0 8px; min-height: 28px; font-size: 14px; }
-  .instrument-layout { grid-template-columns: minmax(0, 1fr); row-gap: 42px; }
-  .instrument-topline { min-height: 30px; }
-  .melody-picker { gap: 8px; }
-  .melody-picker select { width: 130px; font-size: 17px; }
-  .melody-triangle { border-left-width: 6px; border-right-width: 6px; border-top-width: 8px; }
-  .power-button { width: 30px; height: 30px; }
-  .instrument-name, .drum-title h2 { font-size: 34px; }
-  .instrument-controls { column-gap: 24px; margin: 8px 0 12px; }
-  .meter { height: 16px; padding: 2px; }
-  .meter-bars { gap: 3px; }
-  .meter-bars i { flex-basis: 4px; }
-  .melody-grid { grid-template-rows: repeat(4, minmax(22px, 1fr)); }
-  .note-dot { width: 18px; height: 18px; }
-  .note-dot::before { width: 7px; height: 7px; }
-  .note-dot::after { width: 11px; height: 11px; }
-  .note-dot i:nth-child(1) { width: 14px; height: 14px; }
-  .note-dot i:nth-child(2) { width: 17px; height: 17px; }
-  .drums { margin-top: 44px; }
-  .drum-header { align-items: flex-start; flex-direction: column; gap: 16px; margin-bottom: 12px; }
-  .drum-title { width: 100%; justify-content: space-between; gap: 8px; }
-  .drum-controls { width: 100%; gap: 24px; }
-  .drum-cell { aspect-ratio: 3 / 1; }
-  .footer { margin-top: 48px; gap: 8px; font-size: 16px; }
+.footer-line {
+  flex: 1 1 auto;
+  border-top: 1px dashed var(--mint);
+  height: 0;
 }
 
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-
-
-/* DRUM MACHINE follows the same instrument layout and note grid */
-.drums {
-  margin-top: clamp(48px, 7.8vw, 150px);
-  width: 100%;
-}
-.drum-topline {
+/* Блок флейты */
+.instrument:has(.flute-wheel-wrap) {
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1vw;
-  min-height: 1.9vw;
+  flex-direction: column;
+  min-height: 32vw;
 }
-.drum-instrument-name {
-  margin: clamp(3px, .16vw, 6px) 0 0;
-  color: var(--mint);
-  text-align: center;
-  font-family: var(--font-ui);
-  font-size: clamp(30px, 3.75vw, 76px);
-  line-height: 1;
-  font-weight: 600;
-  letter-spacing: .025em;
+
+/* Верхняя строка (только кнопка OFF, так как селектора мелодий у флейты нет) */
+.instrument:has(.flute-wheel-wrap) .instrument-topline {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10;
 }
-.drum-controls {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  justify-content: space-between;
-  column-gap: 4.69vw;
+
+/* Название флейты */
+.instrument:has(.flute-wheel-wrap) .instrument-name {
+  margin: 3vw 0 0 0;
+  text-align: left;
+}
+
+/* Контейнер для шкал скорости и громкости */
+.instrument:has(.flute-wheel-wrap) .instrument-controls {
+  position: absolute;
+  left: 0;
+  top: 10vw;
+  width: 14.5vw;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5vw; 
+  margin: 0;
+  z-index: 10;
+}
+
+/* Сами шкалы делаем широкими, как на фото */
+.instrument:has(.flute-wheel-wrap) .slider-control {
   width: 100%;
-  margin-top: clamp(8px, .65vw, 14px);
-  margin-bottom: clamp(12px, .78vw, 18px);
 }
-.drum-melody-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0;
-  width: 100%;
-  border-left: 1px solid var(--mint);
-  border-top: 1px solid var(--mint);
+
+/* Подписи СКОРОСТЬ и ГРОМКОСТЬ */
+.instrument:has(.flute-wheel-wrap) .slider-control > span {
+  display: block;
+  font-size: clamp(18px, 1.3vw, 24px);
+  margin-bottom: 0.5vw;
 }
-.drum-row { margin: 0; }
-.drum-grid {
-  display: grid;
-  grid-template-columns: repeat(16, minmax(0, 1fr));
-  width: 100%;
+
+/* Круг флейты */
+.flute-wheel-wrap {
+  position: absolute;
+  right: 0;
+  top: 2vw;
+  width: min(36vw, 460px); /* Увеличели круг, чтобы он был большим и красивым */
+  aspect-ratio: 1;
+  z-index: 1;
+}
+
+.flute-wheel {
+  position: absolute;
+  inset: 0;
+  border: 1px dotted var(--mint);
+  border-radius: 50%;
+  overflow: hidden;
+  background: #000;
+}
+
+.wheel-sector {
+  position: absolute;
+  inset: 3%;
+  border-radius: 50%;
+  background: conic-gradient(from -90deg, rgba(0,255,170,.88) 0deg, rgba(0,255,170,.38) 90deg, transparent 90deg 360deg);
+  clip-path: polygon(50% 50%, 50% 0%, 100% 0%, 100% 50%);
+  opacity: .95;
+}
+
+.wheel-rings {
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+}
+
+.wheel-rings i {
+  position: absolute;
+  border: 1px solid var(--mint);
+  border-radius: 50%;
+  inset: 0;
+}
+
+.wheel-rings i:nth-child(2) {
+  inset: 12.5%;
+}
+
+.wheel-rings i:nth-child(3) {
+  inset: 25%;
+}
+
+.wheel-rings i:nth-child(4) {
+  inset: 37.5%;
+}
+
+.wheel-spokes {
+  position: absolute;
+  inset: 4%;
+  pointer-events: none;
+}
+
+.wheel-spokes i {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  background: var(--mint);
+  transform-origin: 50% 50%;
+  opacity: .9;
+}
+
+.wheel-note {
+  position: absolute;
+  z-index: 3;
+  width: 7%;
+  height: 7%;
+  padding: 0;
   border: 0;
-}
-.drum-cell {
-  aspect-ratio: 1 / 1;
-  border-radius: 0;
-  border: 0;
-  border-right: 1px solid var(--mint);
-  border-bottom: 1px solid var(--mint);
+  border-radius: 50%;
   background: transparent;
-}
-.drum-dot { transform: none; }
-.drums.is-off .drum-cell.active .note-dot { opacity: .5; }
-
-/* Fluid sizing: elements scale with the viewport without becoming unreadably small. */
-.header h1 { font-size: clamp(26px, 3.34vw, 84px); }
-.main-button, .reset-button { font-size: clamp(14px, 1.05vw, 28px); }
-.melody-picker select { font-size: clamp(15px, 1.05vw, 28px); }
-.power-button { font-size: clamp(14px, 1.05vw, 28px); }
-.instrument-name, .drum-instrument-name, .drum-title h2 { font-size: clamp(28px, 3.75vw, 76px); }
-.slider-control > span { font-size: clamp(12px, .73vw, 20px); }
-.footer { font-size: clamp(16px, 1.05vw, 28px); }
-.melody-grid { grid-template-rows: repeat(4, minmax(clamp(22px, 1.5vw, 44px), 1fr)); }
-.note-dot { width: clamp(23px, 1.8vw, 40px); height: clamp(23px, 1.8vw, 40px); min-width: 0; min-height: 0; }
-.note-dot::before { width: clamp(11px, .86vw, 22px); height: clamp(11px, .86vw, 22px); min-width: 0; min-height: 0; }
-.note-dot::after { width: clamp(15px, 1.17vw, 29px); height: clamp(15px, 1.17vw, 29px); min-width: 0; min-height: 0; }
-.note-dot i:nth-child(1) { width: clamp(18px, 1.48vw, 36px); height: clamp(18px, 1.48vw, 36px); }
-.note-dot i:nth-child(2) { width: clamp(23px, 1.8vw, 40px); height: clamp(23px, 1.8vw, 40px); }
-.meter { height: clamp(14px, .99vw, 24px); }
-.meter-bars { gap: clamp(3px, .26vw, 7px); }
-.meter-bars i { flex-basis: clamp(3px, .21vw, 6px); }
-
-@media (max-width: 700px) {
-  .drums { margin-top: 44px; }
-  .drum-topline { min-height: 30px; }
-  .drum-instrument-name { font-size: clamp(28px, 7vw, 38px); margin-top: 6px; }
-  .drum-controls { width: 100%; gap: 24px; margin: 8px 0 12px; }
-  .drum-cell { aspect-ratio: 1 / 1; }
-  .melody-grid { grid-template-rows: repeat(4, minmax(22px, 1fr)); }
-  .note-dot { width: 18px; height: 18px; }
-  .note-dot::before { width: 7px; height: 7px; }
-  .note-dot::after { width: 11px; height: 11px; }
-  .note-dot i:nth-child(1) { width: 14px; height: 14px; }
-  .note-dot i:nth-child(2) { width: 17px; height: 17px; }
+  transform: translate(-50%, -50%);
 }
 
+.wheel-note.active {
+  cursor: pointer;
+}
 
-/* Final responsive refinements: readable desktop typography and full-width meters. */
-.header h1 { font-size: clamp(38px, 4.4vw, 88px); }
-.main-button, .reset-button { font-size: clamp(17px, 1.35vw, 30px); }
-.melody-picker select { font-size: clamp(18px, 1.35vw, 30px); }
-.power-button { font-size: clamp(17px, 1.35vw, 30px); }
-.instrument-name, .drum-instrument-name, .drum-title h2 { font-size: clamp(42px, 4.2vw, 80px); }
-.slider-control > span { font-size: clamp(15px, 1.05vw, 23px); }
-.footer { font-size: clamp(19px, 1.45vw, 30px); }
-.instrument-topline, .drum-topline { min-height: clamp(30px, 2.4vw, 48px); }
-.meter { height: clamp(17px, 1.25vw, 26px); padding: 2px; }
-.meter-bars { display: flex; align-items: stretch; justify-content: space-between; gap: clamp(2px, .22vw, 5px); width: 100%; height: 100%; }
-.meter-bars i { flex: 1 1 0; min-width: 0; height: 100%; }
-.instrument-controls { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(24px, 3.1vw, 60px); }
-.drum-controls { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(24px, 3.1vw, 60px); }
+.wheel-note.playing {
+  background: rgba(0,255,170,.2);
+  box-shadow: 0 0 12px var(--mint);
+}
 
-@media (min-width: 701px) {
-  .instrument-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.wheel-note .note-dot {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.wheel-note .note-dot::before {
+  width: 48%;
+  height: 48%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.wheel-note .note-dot::after {
+  width: 70%;
+  height: 70%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.wheel-note .note-dot i:nth-child(1) {
+  width: 88%;
+  height: 88%;
+}
+
+.wheel-note .note-dot i:nth-child(2) {
+  width: 110%;
+  height: 110%;
+}
+
+.wheel-center {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 1px;
+  background: var(--mint);
 }
 
 @media (max-width: 700px) {
-  /* On phones every instrument is stacked vertically in one column. */
-  .instrument-layout { display: flex; flex-direction: column; gap: 42px; }
-  .instrument { width: 100%; }
-  .instrument-controls, .drum-controls { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 18px; }
-  .meter { height: 16px; padding: 2px; }
-  .meter-bars { gap: 2px; }
-  .meter-bars i { flex: 1 1 0; min-width: 0; }
-  .header h1 { font-size: clamp(23px, 6vw, 36px); }
-  .instrument-name, .drum-instrument-name, .drum-title h2 { font-size: clamp(30px, 8vw, 40px); }
-  .slider-control > span { font-size: 14px; }
-  .footer { font-size: 15px; }
+  .app {
+    padding: 18px 16px 28px;
+  }
+
+  .header {
+    min-height: 70px;
+    margin-bottom: 58px;
+  }
+
+  .brand-block {
+    top: 6px;
+  }
+
+  .header h1 {
+    font-size: clamp(23px, 6vw, 36px);
+  }
+
+  .main-button,
+  .reset-button {
+    min-width: 58px;
+    width: auto;
+    padding: 0 8px;
+    min-height: 28px;
+    font-size: 14px;
+  }
+
+  .instrument-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 42px;
+  }
+
+  .instrument {
+    width: 100%;
+  }
+
+  .instrument-topline {
+    min-height: 30px;
+  }
+
+  .melody-picker {
+    gap: 8px;
+  }
+
+  .melody-picker select {
+    width: 130px;
+    font-size: 17px;
+  }
+
+  .melody-triangle {
+    border-left-width: 6px;
+    border-right-width: 6px;
+    border-top-width: 8px;
+  }
+
+  .power-button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .instrument-name,
+  .drum-instrument-name,
+  .drum-title h2 {
+    font-size: clamp(30px, 8vw, 40px);
+  }
+
+  .instrument-controls,
+  .drum-controls {
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 18px;
+    margin: 8px 0 12px;
+  }
+
+  .slider-control {
+    width: 100%;
+  }
+
+  .slider-control > span {
+    font-size: 14px;
+  }
+
+  .meter {
+    height: 16px;
+    padding: 2px;
+  }
+
+  .meter-bars {
+    gap: 2px;
+  }
+
+  .meter-bars i {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .melody-grid {
+    grid-template-rows: repeat(4, minmax(22px, 1fr));
+    border-width: 1px 0 0 1px;
+  }
+
+  .cell {
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+  }
+
+  .note-dot {
+    width: 22px;
+    height: 22px;
+  }
+
+  .note-dot::before {
+    width: 9px;
+    height: 9px;
+  }
+
+  .note-dot::after {
+    width: 14px;
+    height: 14px;
+  }
+
+  .note-dot i:nth-child(1) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .note-dot i:nth-child(2) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .drums {
+    margin-top: 30px;
+  }
+
+  .drum-topline {
+    min-height: 30px;
+  }
+
+  .drum-instrument-name {
+    font-size: clamp(28px, 7vw, 38px);
+    margin-top: 6px;
+  }
+
+  .drum-cell {
+    aspect-ratio: 1 / 1;
+  }
+
+  .footer {
+    margin-top: 48px;
+    gap: 8px;
+    font-size: 15px;
+  }
+
+  .instrument:has(.flute-wheel-wrap) {
+    height: auto;
+  }
+
+  .instrument:has(.flute-wheel-wrap) .instrument-name {
+    position: static;
+    margin-top: 10px;
+  }
+
+  .instrument:has(.flute-wheel-wrap) .instrument-controls {
+    position: static;
+    width: 100%;
+    margin: 15px 0;
+  }
+
+  .instrument:has(.flute-wheel-wrap) .slider-control {
+    width: 100%;
+  }
+
+  .flute-wheel-wrap {
+    position: relative;
+    width: min(65vw, 300px);
+    margin: 20px auto 0 auto;
+  }
 }
 
-
-/* FINAL DESKTOP SCALE — larger typography and stronger grid lines */
 @media (min-width: 701px) {
   .app {
     padding: 1.5vw 4.9vw 3vw;
@@ -504,6 +904,7 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   }
 
   .instrument-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     column-gap: 4.7vw;
     row-gap: 7.8vw;
   }
@@ -606,7 +1007,7 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
   }
 
   .drums {
-    margin-top: clamp(70px, 8vw, 150px);
+    margin-top: 3.5vw;
   }
 
   .drum-controls {
@@ -627,19 +1028,4 @@ button:focus-visible, select:focus-visible, input:focus-visible { outline: 1px s
     margin-top: clamp(70px, 7.8vw, 145px);
     font-size: clamp(22px, 1.65vw, 32px);
   }
-}
-
-/* Keep the phone layout stacked and comfortable to read. */
-@media (max-width: 700px) {
-  .header h1 { font-size: clamp(23px, 6vw, 36px); }
-  .instrument-name,
-  .drum-instrument-name,
-  .drum-title h2 { font-size: clamp(30px, 8vw, 40px); }
-  .melody-grid { border-width: 1px 0 0 1px; }
-  .cell { border-right-width: 1px; border-bottom-width: 1px; }
-  .note-dot { width: 22px; height: 22px; }
-  .note-dot::before { width: 9px; height: 9px; }
-  .note-dot::after { width: 14px; height: 14px; }
-  .note-dot i:nth-child(1) { width: 18px; height: 18px; }
-  .note-dot i:nth-child(2) { width: 22px; height: 22px; }
 }

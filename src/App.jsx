@@ -67,7 +67,7 @@ const INITIAL_PATTERNS = {
 const INSTRUMENTS = [
   {
     id: 'violin',
-    title: 'VIOLIN',
+    title: 'СКРИПКА',
     presets: [
       'Мелодия_1',
       'Мелодия_2'
@@ -76,7 +76,7 @@ const INSTRUMENTS = [
 
   {
     id: 'horn',
-    title: 'LOW HORN',
+    title: 'ТРУБА',
     presets: [
       'Мелодия_1',
       'Мелодия_2',
@@ -86,7 +86,7 @@ const INSTRUMENTS = [
 
   {
     id: 'bells',
-    title: 'BELLS',
+    title: 'КОЛОКОЛЬЧИКИ',
     presets: [
       'Мелодия_1',
       'Мелодия_2',
@@ -96,11 +96,7 @@ const INSTRUMENTS = [
 
   {
     id: 'flute',
-    title: 'FLUTE',
-    presets: [
-      'Мелодия_1',
-      'Мелодия_2'
-    ]
+    title: 'ФЛЕЙТА',
   }
 ]
 
@@ -658,73 +654,32 @@ function App() {
    * MELODY SEQUENCES
    */
 
-  function createMelodySequence(
-    id,
-    synth,
-    notes,
-    velocity,
-    isMetal = false
-  ) {
-    const Tone =
-      ToneRef.current
+  function createMelodySequence(id, synth, notes, velocity, isMetal = false) {
+  const Tone = ToneRef.current
+  const sequence = new Tone.Sequence(
+    (time, step) => {
+      if (!enabledRef.current[id]) return
 
-    const sequence =
-      new Tone.Sequence(
-        (time, step) => {
-          if (
-            !enabledRef.current[id]
-          ) {
-            return
-          }
+      const pattern = patterns.current[id]
+      const noteIndex = pattern[step]
 
-          const pattern =
-            patterns.current[id]
+      if (noteIndex === null || noteIndex === undefined) return
 
-          const noteIndex =
-            pattern[step]
+      const note = notes[noteIndex]
+      synth.triggerAttackRelease(note, isMetal ? '16n' : '8n', time, velocity)
 
-          if (
-            noteIndex === null ||
-            noteIndex === undefined
-          ) {
-            return
-          }
+      // Убрали if (id === 'violin'), чтобы анимация работала везде
+      Tone.Draw.schedule(() => {
+        setCurrentStep(step)
+      }, time)
+    },
+    Array.from({ length: STEPS }, (_, index) => index),
+    '16n'
+  )
 
-          const note =
-            notes[noteIndex]
-
-          synth.triggerAttackRelease(
-            note,
-            isMetal
-              ? '16n'
-              : '8n',
-            time,
-            velocity
-          )
-
-          if (id === 'violin') {
-            Tone.Draw.schedule(
-              () => {
-                setCurrentStep(step)
-              },
-              time
-            )
-          }
-        },
-
-        Array.from(
-          { length: STEPS },
-          (_, index) => index
-        ),
-
-        '16n'
-      )
-
-    sequence.start(0)
-
-    sequences.current[id] =
-      sequence
-  }
+  sequence.start(0)
+  sequences.current[id] = sequence
+}
 
   /*
    * DRUM SEQUENCES
@@ -834,6 +789,8 @@ function App() {
       'started'
     ) {
       transport.stop()
+
+      transport.position = 0;
 
       setPlaying(false)
       setCurrentStep(-1)
@@ -1296,6 +1253,8 @@ function App() {
 
     Tone.getTransport().stop()
 
+    Tone.getTransport().position = 0;
+
     Object.values(
       sequences.current
     ).forEach(sequence => {
@@ -1359,7 +1318,7 @@ function App() {
           className="reset-button"
           onClick={resetEverything}
         >
-          RESET
+          ЗАНОВО
         </button>
 
         <div className="brand-block">
@@ -1371,7 +1330,7 @@ function App() {
           className="main-button"
           onClick={togglePlayback}
         >
-          {playing ? 'STOP' : 'START'}
+          {playing ? 'СТОП' : 'СТАРТ'}
         </button>
       </header>
 
@@ -1566,32 +1525,36 @@ function Instrument({
     <section className={`instrument ${enabled ? 'is-on' : 'is-off'}`}>
 
       <div className="instrument-topline">
-        <label className="melody-picker">
-          <span className="melody-triangle" aria-hidden="true" />
-          <select
-            value={preset}
-            aria-label={`${instrument.title}: выбор мелодии`}
-            onChange={event => onPresetChange(event.target.value)}
-          >
-            {instrument.presets.map(option => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
-        </label>
+  {instrument.id !== 'flute' && (
+    <label className="melody-picker">
+      <span className="melody-triangle" aria-hidden="true" />
+      <select
+        value={preset}
+        aria-label={`${instrument.title}: выбор мелодии`}
+        onChange={event => onPresetChange(event.target.value)}
+      >
+        {instrument.presets.map(option => (
+          <option key={option} value={option}>
+            {option.replace("_", " ")}
+          </option>
+        ))}
+      </select>
+    </label>
+  )}
 
-        <button
-          className={`power-button ${enabled ? 'active' : ''}`}
-          onClick={onToggle}
-        >
-          {enabled ? 'ON' : 'OFF'}
-        </button>
-      </div>
+  <button
+    className={`power-button ${enabled ? 'active' : ''}`}
+    onClick={onToggle}
+  >
+    {enabled ? 'ON' : 'OFF'}
+  </button>
+</div>
 
       <h2 className="instrument-name">{instrument.title}</h2>
 
-      <div className="instrument-controls">
+      <div className={`instrument-controls ${instrument.id === 'flute' ? 'flute-controls' : ''}`}>
         <label className="slider-control speed-control">
-          <span>SPEED</span>
+          <span>СКОРОСТЬ</span>
           <div className="meter" style={{ '--meter-fill': `${((speed - 0.5) / 1) * 100}%` }}>
             <div className="meter-bars" aria-hidden="true">
               {Array.from({ length: 32 }, (_, i) => <i key={i} className={i < Math.round(((speed - 0.5) / 1) * 32) ? 'lit' : ''} />)}
@@ -1601,7 +1564,7 @@ function Instrument({
         </label>
 
         <label className="slider-control volume-control">
-          <span>VOLUME</span>
+          <span>ГРОМКОСТЬ</span>
           <div className="meter" style={{ '--meter-fill': `${volume * 100}%` }}>
             <div className="meter-bars" aria-hidden="true">
               {Array.from({ length: 32 }, (_, i) => <i key={i} className={i < Math.round(volume * 32) ? 'lit' : ''} />)}
@@ -1611,49 +1574,36 @@ function Instrument({
         </label>
       </div>
 
-      <div className="melody-grid">
-
-        {[0, 1, 2, 3].map(
-          row => (
-            <div
-              className="melody-row"
-              key={row}
-            >
-
-              {Array.from(
-                {
-                  length: STEPS
-                },
-                (_, step) => {
-
-                  const active =
-                    pattern[step] === row
-
-                  const isPlaying =
-                    currentStep === step
-
-                  return (
-                    <button
-                      key={step}
-                      aria-label={`Ряд ${row + 1}, шаг ${step + 1}`}
-                      className={[
-                        'cell',
-                        active ? 'active' : '',
-                        isPlaying ? 'playing' : ''
-                      ].join(' ')}
-                      onClick={() => onCellClick(row, step)}
-                    >
-                      {active && <span className="note-dot" aria-hidden="true"><i /><i /><i /></span>}
-                    </button>
-                  )
-                }
-              )}
-
+      {instrument.id === 'flute' ? (
+        <div className="flute-wheel-wrap">
+          <div className="flute-wheel" style={{ '--play-angle': `${(currentStep < 0 ? 0 : currentStep) * 22.5}deg` }}>
+            <div className="wheel-sector" />
+            <div className="wheel-rings"><i /><i /><i /><i /></div>
+            <div className="wheel-spokes">{Array.from({ length: 8 }, (_, i) => <i key={i} style={{ transform: `rotate(${i * 45}deg)` }} />)}</div>
+            {[0, 1, 2, 3].map(row => Array.from({ length: STEPS }, (_, step) => {
+              const angle = step * 22.5 - 90
+              const radius = 18 + row * 8.5
+              const x = 50 + Math.cos(angle * Math.PI / 180) * radius
+              const y = 50 + Math.sin(angle * Math.PI / 180) * radius
+              const active = pattern[step] === row
+              return <button key={`${row}-${step}`} className={`wheel-note ${active ? 'active' : ''} ${currentStep === step ? 'playing' : ''}`} style={{ left: `${x}%`, top: `${y}%` }} aria-label={`Нота ${row + 1}, шаг ${step + 1}`} onClick={() => onCellClick(row, step)}>{active && <span className="note-dot"><i /><i /><i /></span>}</button>
+            }))}
+            <div className="wheel-center" />
+          </div>
+        </div>
+      ) : (
+        <div className="melody-grid">
+          {[0, 1, 2, 3].map(row => (
+            <div className="melody-row" key={row}>
+              {Array.from({ length: STEPS }, (_, step) => {
+                const active = pattern[step] === row
+                const isPlaying = currentStep === step
+                return <button key={step} aria-label={`Ряд ${row + 1}, шаг ${step + 1}`} className={['cell', active ? 'active' : '', isPlaying ? 'playing' : ''].join(' ')} onClick={() => onCellClick(row, step)}>{active && <span className="note-dot" aria-hidden="true"><i /><i /><i /></span>}</button>
+              })}
             </div>
-          )
-        )}
-
-      </div>
+          ))}
+        </div>
+      )}
 
     </section>
   )
@@ -1682,8 +1632,8 @@ function DrumMachine({
         <label className="melody-picker">
           <span className="melody-triangle" aria-hidden="true" />
           <select value={preset} aria-label="Выбор ритма барабанов" onChange={event => onPresetChange(event.target.value)}>
-            <option value="Мелодия_1">Мелодия_1</option>
-            <option value="Мелодия_2">Мелодия_2</option>
+            <option value="Мелодия_1">Мелодия 1</option>
+            <option value="Мелодия_2">Мелодия 2</option>
           </select>
         </label>
         <button className={`power-button ${enabled ? 'active' : ''}`} onClick={onToggle}>
@@ -1691,18 +1641,18 @@ function DrumMachine({
         </button>
       </div>
 
-      <h2 className="drum-instrument-name">DRUM MACHINE</h2>
+      <h2 className="drum-instrument-name">БАРАБАНЫ</h2>
 
       <div className="drum-controls">
         <label className="slider-control speed-control">
-          <span>SPEED</span>
+          <span>СКОРОСТЬ</span>
           <div className="meter" style={{ '--meter-fill': `${((speed - 0.5) / 1) * 100}%` }}>
             <div className="meter-bars" aria-hidden="true">{Array.from({ length: 32 }, (_, i) => <i key={i} className={i < Math.round(((speed - 0.5) / 1) * 32) ? 'lit' : ''} />)}</div>
             <input type="range" min="0.5" max="1.5" step="0.05" value={speed} aria-label="Drum speed" onChange={event => onSpeedChange(event.target.value)} />
           </div>
         </label>
         <label className="slider-control volume-control">
-          <span>VOLUME</span>
+          <span>ГРОМКОСТЬ</span>
           <div className="meter" style={{ '--meter-fill': `${volume * 100}%` }}>
             <div className="meter-bars" aria-hidden="true">{Array.from({ length: 32 }, (_, i) => <i key={i} className={i < Math.round(volume * 32) ? 'lit' : ''} />)}</div>
             <input type="range" min="0" max="1" step="0.01" value={volume} aria-label="Drum volume" onChange={event => onVolumeChange(event.target.value)} />
