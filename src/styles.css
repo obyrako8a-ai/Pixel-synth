@@ -522,15 +522,13 @@ input:focus-visible {
   height: 0;
 }
 
-/* Блок флейты */
 .instrument:has(.flute-wheel-wrap) {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 32vw;
+  min-height: 34vw;
 }
 
-/* Верхняя строка (только кнопка OFF, так как селектора мелодий у флейты нет) */
 .instrument:has(.flute-wheel-wrap) .instrument-topline {
   position: absolute;
   right: 0;
@@ -538,43 +536,42 @@ input:focus-visible {
   z-index: 10;
 }
 
-/* Название флейты */
 .instrument:has(.flute-wheel-wrap) .instrument-name {
-  margin: 3vw 0 0 0;
+  margin: 4vw 0 0 0;
   text-align: left;
 }
 
-/* Контейнер для шкал скорости и громкости */
 .instrument:has(.flute-wheel-wrap) .instrument-controls {
   position: absolute;
   left: 0;
   top: 10vw;
-  width: 14.5vw;
+  width: 14vw;
   display: flex;
   flex-direction: column;
-  gap: 3.5vw; 
+  gap: 3.5vw;
   margin: 0;
   z-index: 10;
 }
 
-/* Сами шкалы делаем широкими, как на фото */
 .instrument:has(.flute-wheel-wrap) .slider-control {
   width: 100%;
 }
 
-/* Подписи СКОРОСТЬ и ГРОМКОСТЬ */
 .instrument:has(.flute-wheel-wrap) .slider-control > span {
   display: block;
   font-size: clamp(18px, 1.3vw, 24px);
   margin-bottom: 0.5vw;
 }
 
-/* Круг флейты */
+.instrument:has(.flute-wheel-wrap) .slider-control:first-child {
+  margin-top: 2vw;
+}
+
 .flute-wheel-wrap {
   position: absolute;
   right: 0;
   top: 2vw;
-  width: min(36vw, 460px); /* Увеличели круг, чтобы он был большим и красивым */
+  width: min(36vw, 460px);
   aspect-ratio: 1;
   z-index: 1;
 }
@@ -858,6 +855,7 @@ input:focus-visible {
 
   .instrument:has(.flute-wheel-wrap) {
     height: auto;
+    min-height: 0;
   }
 
   .instrument:has(.flute-wheel-wrap) .instrument-name {
@@ -869,6 +867,15 @@ input:focus-visible {
     position: static;
     width: 100%;
     margin: 15px 0;
+    gap: 20px;
+  }
+
+  .instrument:has(.flute-wheel-wrap) .slider-control > span {
+    font-size: 16px;
+  }
+
+  .instrument:has(.flute-wheel-wrap) .slider-control:first-child {
+    margin-top: 0;
   }
 
   .instrument:has(.flute-wheel-wrap) .slider-control {
@@ -879,6 +886,7 @@ input:focus-visible {
     position: relative;
     width: min(65vw, 300px);
     margin: 20px auto 0 auto;
+    top: 0;
   }
 }
 
