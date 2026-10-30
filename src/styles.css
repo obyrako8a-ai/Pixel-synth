@@ -571,7 +571,7 @@ input:focus-visible {
   position: absolute;
   right: 0;
   top: 2vw;
-  width: min(36vw, 460px);
+  width: min(30vw, 380px);
   aspect-ratio: 1;
   z-index: 1;
 }
