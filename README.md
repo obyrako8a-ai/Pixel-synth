@@ -34,7 +34,7 @@ Tone.js для синтеза и последовательностей, Web Aud
 без перегруженной графики и мелкого лишнего текста. Основное внимание — музыкальному функционалу и структуре интерфейса.
 
 Структура интерфейса: первый ряд — VIOLIN и LOW HORN, второй — BELLS и FLUTE, третий, на всю ширину — DRUM MACHINE. 
-Название проекта — CHRISTMAS SYNTH.
+Название проекта — ПИКСЕЛЬ-СИНТ.
 
 Код должен быть организован в стандартную структуру Vite/React:
 index.html, package.json, package-lock.json, vite.config.js, src/main.jsx, src/App.jsx, src/styles.css.
